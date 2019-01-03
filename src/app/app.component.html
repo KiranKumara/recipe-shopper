@@ -5,4 +5,62 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+  <div>
+    <h2> Assignment practice </h2>
+    <div class="row">
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+        <div class="form-group">
+          <label for="email">Mail</label>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            ngModel
+            email
+            required
+            #email="ngModel"
+            class="form-control">
+          <p class="helper-block" *ngIf="!email.valid && email.touched">Please enter correct mail address!!</p>
+        </div>
+        <div class="form-group">
+          <label for="subscription">Choose a subscription</label>
+          <select
+            name="subscription"
+            id="subscription"
+            [ngModel]="defaultOption"
+            class="form-control">
+            <option value="basic">Basic</option>
+            <option value="advanced">Advanced</option>
+            <option value="pro">Pro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            required
+            ngModel
+            #password="ngModel"
+            class="form-control">
+            <p class="helper-block" *ngIf="!password.valid && password.touched">The Password is invalid!</p>
+        </div>
+        <div class="form-group">
+          <button
+            type="submit"
+            [disabled]="!f.valid && f.touched"
+            class="btn btn-primary">
+            Submit
+          </button>
+            <p class="helper-block" *ngIf="!f.valid && f.touched">The Form is invalid!</p>
+        </div>
+      </form>
+    </div>
+    <hr>
+    <div class="row" *ngIf="f.valid && formSubmitted">
+      <h2>User Details</h2>
+      <p>Mail: {{ user.enteredEmail }} </p>
+      <p>Subscription: {{ user.selectedSubscription }} </p>
+    </div>
+  </div>
 </div>
