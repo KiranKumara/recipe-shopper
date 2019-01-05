@@ -5,8 +5,8 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <div>
-    <h2> Assignment practice </h2>
+  <div class="row">
+    <h2> Assignment practice Template Driven approach </h2>
     <div class="row">
       <form (ngSubmit)="onSubmit()" #f="ngForm">
         <div class="form-group">
@@ -61,6 +61,72 @@
       <h2>User Details</h2>
       <p>Mail: {{ user.enteredEmail }} </p>
       <p>Subscription: {{ user.selectedSubscription }} </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <h2> Assignment practice Reactive approach </h2>
+    <form [formGroup]="projectForm" (ngSubmit)="onProjectFormSubmit()">
+      <div class="form-group">
+        <label for="projectname">Project Name:</label>
+        <input
+          type="text"
+          id="projectname"
+          formControlName="projectName"
+          class="form-control">
+        <span
+          class="helper-block"
+          *ngIf="projectForm.get('projectName').touched && !projectForm.get('projectName').valid">
+          Project name is required!
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="projectemail">Project Mail:</label>
+        <input
+          type="text"
+          id="projectemail"
+          formControlName="projectEmail"
+          class="form-control">
+        <span
+          *ngIf="projectForm.get('projectEmail').touched && !projectForm.get('projectEmail').valid">
+          <span
+            class="helper-block"
+            *ngIf="projectForm.get('projectEmail').errors['required']">
+            Project mail is requied!
+          </span>
+          <span
+            class="helper-block"
+            *ngIf="projectForm.get('projectEmail').errors['email']">
+            Project mail is invalid!
+          </span>
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="projectstatus">Project Status:</label>
+        <select
+          id="projectstatus"
+          formControlName="projectStatus"
+          class="form-control">
+          <option *ngFor="let opt of projectStatuses" [value]="opt"> {{ opt }}</option>
+        </select>
+      </div>
+
+      <span
+        class="helper-block"
+        *ngIf="projectForm.touched && !projectForm.valid">Project form is invalid!</span>
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn btn-primary">
+          Submit
+        </button>
+      </div>
+    </form>
+    <div class="row" *ngIf="projectFormSubmited">
+      <h2>Project Details</h2>
+      <p>Name: {{ projectForm.value.projectName }} </p>
+      <p>Mail: {{ projectForm.value.projectEmail }} </p>
+      <p>Status: {{ projectForm.value.projectStatus }} </p>
     </div>
   </div>
 </div>
