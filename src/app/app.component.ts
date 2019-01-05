@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit () {
     this.projectForm = new FormGroup({
-      'projectName': new FormControl(null, Validators.required),
+      'projectName': new FormControl(null, [Validators.required, this.forbiddenProjectName], this.forbiddenProjectNameFromServer),
       'projectEmail': new FormControl(null, [Validators.required, Validators.email]),
       'projectStatus': new FormControl(null)
     })
@@ -37,5 +39,25 @@ export class AppComponent implements OnInit {
 
   onProjectFormSubmit() {
     this.projectFormSubmited = this.projectForm.valid;
+  }
+
+  forbiddenProjectName(control: FormControl): {[s: string]: boolean} {
+    if (control.value == 'Test') {
+      return {'forbiddenProjectName': true};
+    }
+    return null;
+  }
+
+  forbiddenProjectNameFromServer(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value == 'TestProjectname') {
+          resolve({'forbiddenProjectName': true});
+        } else {
+          resolve(null);
+        }
+      }, 3000);
+    });
+    return promise;
   }
 }

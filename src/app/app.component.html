@@ -74,10 +74,17 @@
           id="projectname"
           formControlName="projectName"
           class="form-control">
-        <span
-          class="helper-block"
-          *ngIf="projectForm.get('projectName').touched && !projectForm.get('projectName').valid">
-          Project name is required!
+        <span *ngIf="projectForm.get('projectName').touched && !projectForm.get('projectName').valid">
+          <span
+            class="helper-block"
+            *ngIf="projectForm.get('projectName').errors['required']">
+            Project name is required!
+          </span>
+          <span
+            class="helper-block"
+            *ngIf="projectForm.get('projectName').errors['forbiddenProjectName']">
+            Project name is invalid!
+          </span>
         </span>
       </div>
       <div class="form-group">
