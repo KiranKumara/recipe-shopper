@@ -1,17 +1,18 @@
 <div class="row">
-	<div class="col-xl-10">
-		<app-shopping-edit 
-			(ingredientAdded)="onNewIngredientAdded($event)">
-			</app-shopping-edit>
+  <div class="col-xl-10">
+    <app-shopping-edit
+      (ingredientAdded)="onNewIngredientAdded($event)">
+      </app-shopping-edit>
 
-	<hr/>
-	<ul class="list-group">
-		<a
-			class="list-group-item"
-			style="cursor: pointer;"
-			*ngFor="let ingedient of ingedients">
-				{{ ingedient.name }} ({{ ingedient.quantity }})
-			</a>
-	</ul>
-	</div>
+  <hr/>
+  <ul class="list-group">
+    <a
+      class="list-group-item"
+      style="cursor: pointer;"
+      *ngFor="let ingedient of ingedients; let i=index;"
+      (click)="onItemClick(i)">
+        {{ ingedient.name }} ({{ ingedient.quantity }})
+      </a>
+  </ul>
+  </div>
 </div>
