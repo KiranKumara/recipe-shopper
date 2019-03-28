@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {  ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Response } from '@angular/http';
 
 import { Recipe } from './recipe.model';
 import { RecipeService } from '../recipe.service';
@@ -23,7 +24,13 @@ export class RecipesListComponent implements OnInit {
           this.recipes = newRecipes;
         }
       );
-  	this.recipes = this.recipeService.getRecipes();
+    this.recipeService.getRecipes()
+      .subscribe(
+        (response: Response) => {
+          this.recipes = response.json();
+        },
+        (error) => console.log(error)
+      );
   }
 
   onNewRecipe() {

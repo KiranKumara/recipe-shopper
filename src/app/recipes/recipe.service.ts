@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import { Subject } from 'rxjs';
 
 import { Recipe } from './recipes-list/recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class RecipeService {
@@ -27,10 +29,11 @@ export class RecipeService {
       ])
   ];
 
-  constructor(private slService: ShoppingListService) {}
+  constructor(private slService: ShoppingListService, private http: Http) {}
 
   getRecipes() {
-    return this.recipes.slice();
+    return this.http.get(environment.apiBaseUrl + '/recipes.json');
+    // return this.recipes.slice();
   }
 
   getRecipe(index: number) {
@@ -43,16 +46,17 @@ export class RecipeService {
 
   updateRecipe(index: number, newRecipe: Recipe) {
     this.recipes[index] = newRecipe;
-    this.recipesChanged.next(this.getRecipes());
+    // this.recipesChanged.next(this.getRecipes());
   }
 
   addRecipe(newRecipe: Recipe) {
-    this.recipes.push(newRecipe);
-    this.recipesChanged.next(this.getRecipes());
+    // this.recipes.push(newRecipe);
+    return this.http.post(environment.apiBaseUrl + '/recipes.json', {recipe: newRecipe})
+    //this.recipesChanged.next(this.getRecipes());
   }
 
   deleteRecipe(index: number) {
     this.recipes.splice(index, 1);
-    this.recipesChanged.next(this.getRecipes());
+    //this.recipesChanged.next(this.getRecipes());
   }
 }
