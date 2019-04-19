@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
 
-import { Recipe } from './recipe.model';
+import { RecipeInterface } from './recipe.interface';
 import { RecipeService } from '../recipe.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./recipes-list.component.css']
 })
 export class RecipesListComponent implements OnInit {
-	recipes: Recipe[];
+	recipes: RecipeInterface[];
 
   constructor(private recipeService: RecipeService,
               private router: Router,
@@ -20,7 +20,7 @@ export class RecipesListComponent implements OnInit {
   ngOnInit() {
     this.recipeService.recipesChanged
       .subscribe(
-        (newRecipes: Recipe[]) => {
+        (newRecipes: RecipeInterface[]) => {
           this.recipes = newRecipes;
         }
       );
